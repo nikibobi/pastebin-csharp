@@ -16,9 +16,9 @@ namespace PastebinAPI
             this.userKey = userKey;
         }
 
-        public Paste NewPaste(string text, string title = "", string language = "text", Visibility visibility = 0, Expiration expiration = null)
+        public Paste NewPaste(string text, string title = "", PasteFormat format = null, Visibility visibility = Visibility.Public, Expiration expiration = null)
         {
-            return Pastebin.NewPaste(text, title, language, visibility, expiration, userKey);
+            return Pastebin.NewPaste(userKey, text, title, format, visibility, expiration);
         }
 
         public string ListPastes(int resultsLimit = 50)
