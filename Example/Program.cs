@@ -18,8 +18,12 @@ namespace Example
                 Console.WriteLine("URL: {0}",newPaste.Url);
                 Console.WriteLine("Paste key: {0}", newPaste.Key);
                 Console.WriteLine("Content: {0}", newPaste.GetRaw());
-                me.DeletePaste(newPaste); //deletes a paste created by user
+                me.DeletePaste(newPaste); //deletes the paste we just created
                 Console.WriteLine(Pastebin.ListTrendingPastes()); //lists all pastes when you click on trending pastes
+
+                //you can create pastes directly from Pastebin static class but they are created as guests
+                Paste anotherPaste = Pastebin.NewPaste("another paste", "MyPasteTitle2", PasteFormat.CSharp, Visibility.Unlisted, Expiration.OneHour);
+                Console.WriteLine(anotherPaste.Url);
             }
             catch(PastebinException ex) //api throws PastebinException
             {
