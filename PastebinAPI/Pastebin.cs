@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace PastebinAPI
 {
@@ -7,21 +6,7 @@ namespace PastebinAPI
     {
         internal const string ERROR = "Bad API request";
 
-        private static bool initialized;
-        private static string devkey;
-
-        public static string DevKey
-        {
-            get
-            {
-                return devkey;
-            }
-            set
-            {
-                devkey = value;
-                initialized = true;
-            }
-        }
+        public static string DevKey { get; set; }
 
         internal static Paste NewPaste(string userKey, string text, string title = "", PasteFormat format = null, Visibility visibility = Visibility.Public, Expiration expiration = null)
         {

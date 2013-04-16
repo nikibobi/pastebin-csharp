@@ -5,7 +5,7 @@ namespace Example
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Pastebin.DevKey = "your dev key goes here"; //you can see yours here: http://pastebin.com/api#1
             try
