@@ -2,10 +2,18 @@
 using System.Net;
 using System.Text;
 
+using System;
+
 namespace PastebinAPI
 {
-    class Utills
+    public class Utills
     {
+        public static DateTime GetDate(long ticks)
+        {
+            //TODO: Make this accurate
+            return new DateTime(1970, 1, 1).ToUniversalTime() + TimeSpan.FromSeconds(ticks);
+        }
+
         public static string PostRequest(string url, string[] parameters)
         {
             WebRequest request = WebRequest.Create(url);

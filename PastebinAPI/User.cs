@@ -1,4 +1,6 @@
-﻿namespace PastebinAPI
+﻿using System.Xml.Linq;
+
+namespace PastebinAPI
 {
     public class User
     {
@@ -58,7 +60,7 @@
             if (result.Contains(Pastebin.ERROR))
                 throw new PastebinException(result);
 
-            return UserInfo.FromXML(result);
+            return UserInfo.FromXML(XDocument.Parse(result).Element("user"));
         }
     }
 }

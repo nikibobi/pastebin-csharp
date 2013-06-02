@@ -22,10 +22,9 @@ namespace PastebinAPI
 	        <user_account_type>1</user_account_type> (0 normal, 1 PRO)
         </user>
          */
-        internal static UserInfo FromXML(string s)
+        internal static UserInfo FromXML(XElement user)
         {
-            XElement user = XDocument.Parse(s).Element("user");
-            UserInfo userInfo = new UserInfo()
+            return new UserInfo()
             {
                 Name = user.Element("user_name").Value,
                 PasteFormat = PasteFormat.Parse(user.Element("user_format_short").Value),
@@ -37,7 +36,6 @@ namespace PastebinAPI
                 Location = user.Element("user_location").Value,
                 IsPro = int.Parse(user.Element("user_account_type").Value) == 1,
             };
-            return userInfo;
         }
 
         public string Name { get; private set; }

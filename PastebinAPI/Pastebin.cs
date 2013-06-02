@@ -76,6 +76,7 @@ namespace PastebinAPI
             if (result.Contains(ERROR))
                 throw new PastebinException(result);
 
+            //TODO: prarse XML
             return result;
         }
     }
