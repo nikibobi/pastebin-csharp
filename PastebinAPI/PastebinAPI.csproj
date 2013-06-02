@@ -47,6 +47,7 @@
     <Compile Include="PasteFormat.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="UserInfo.cs" />
     <Compile Include="Utills.cs" />
     <Compile Include="Visibility.cs" />
   </ItemGroup>

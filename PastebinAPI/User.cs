@@ -46,7 +46,7 @@
                 throw new PastebinException(result);
         }
 
-        public string GetUserInfo()
+        public UserInfo GetUserInfo()
         {
             var result = Utills.PostRequest(@"http://pastebin.com/api/api_post.php", new[]
                                                    {
@@ -58,7 +58,7 @@
             if (result.Contains(Pastebin.ERROR))
                 throw new PastebinException(result);
 
-            return result;
+            return UserInfo.Parse(result);
         }
     }
 }
