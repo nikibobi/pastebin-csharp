@@ -1,231 +1,479 @@
-﻿namespace PastebinAPI
+﻿using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace PastebinAPI
 {
     public class PasteFormat
     {
-        #region PasteFormats
+        #region Formats
         // ReSharper disable InconsistentNaming
-        public static readonly PasteFormat _4CS = new PasteFormat("4cs");
-        public static readonly PasteFormat _6502ACMECrossAssembler = new PasteFormat("6502acme");
-        public static readonly PasteFormat _6502KickAssembler = new PasteFormat("6502kickass");
-        public static readonly PasteFormat _6502TASM64TASS = new PasteFormat("6502tasm");
-        public static readonly PasteFormat ABAP = new PasteFormat("abap");
-        public static readonly PasteFormat ActionScript = new PasteFormat("actionscript");
-        public static readonly PasteFormat ActionScript3 = new PasteFormat("actionscript3");
-        public static readonly PasteFormat Ada = new PasteFormat("ada");
-        public static readonly PasteFormat ALGOL68 = new PasteFormat("algol68");
-        public static readonly PasteFormat ApacheLog = new PasteFormat("apache");
-        public static readonly PasteFormat AppleScript = new PasteFormat("applescript");
-        public static readonly PasteFormat APTSources = new PasteFormat("apt_sources");
-        public static readonly PasteFormat ARM = new PasteFormat("arm");
-        public static readonly PasteFormat ASM = new PasteFormat("asm");
-        public static readonly PasteFormat ASP = new PasteFormat("asp");
-        public static readonly PasteFormat Asymptote = new PasteFormat("asymptote");
-        public static readonly PasteFormat autoconf = new PasteFormat("autoconf");
-        public static readonly PasteFormat Autohotkey = new PasteFormat("autohotkey");
-        public static readonly PasteFormat AutoIt = new PasteFormat("autoit");
-        public static readonly PasteFormat Avisynth = new PasteFormat("avisynth");
-        public static readonly PasteFormat Awk = new PasteFormat("awk");
-        public static readonly PasteFormat BASCOMAVR = new PasteFormat("bascomavr");
-        public static readonly PasteFormat Bash = new PasteFormat("bash");
-        public static readonly PasteFormat Basic4GL = new PasteFormat("basic4gl");
-        public static readonly PasteFormat BibTeX = new PasteFormat("bibtex");
-        public static readonly PasteFormat BlitzBasic = new PasteFormat("blitzbasic");
-        public static readonly PasteFormat BNF = new PasteFormat("bnf");
-        public static readonly PasteFormat BOO = new PasteFormat("boo");
-        public static readonly PasteFormat BrainFuck = new PasteFormat("bf");
-        public static readonly PasteFormat C = new PasteFormat("c");
-        public static readonly PasteFormat CforMacs = new PasteFormat("c_mac");
-        public static readonly PasteFormat CIntermediateLanguage = new PasteFormat("cil");
-        public static readonly PasteFormat CSharp = new PasteFormat("csharp");
-        public static readonly PasteFormat CPlusPlus = new PasteFormat("cpp");
-        public static readonly PasteFormat CPlusPlusQT = new PasteFormat("cpp-qt");
-        public static readonly PasteFormat CLoadrunner = new PasteFormat("c_loadrunner");
-        public static readonly PasteFormat CADDCL = new PasteFormat("caddcl");
-        public static readonly PasteFormat CADLisp = new PasteFormat("cadlisp");
-        public static readonly PasteFormat CFDG = new PasteFormat("cfdg");
-        public static readonly PasteFormat ChaiScript = new PasteFormat("chaiscript");
-        public static readonly PasteFormat Clojure = new PasteFormat("clojure");
-        public static readonly PasteFormat CloneC = new PasteFormat("klonec");
-        public static readonly PasteFormat CloneCPlusPlus = new PasteFormat("klonecpp");
-        public static readonly PasteFormat CMake = new PasteFormat("cmake");
-        public static readonly PasteFormat COBOL = new PasteFormat("cobol");
-        public static readonly PasteFormat CoffeeScript = new PasteFormat("coffeescript");
-        public static readonly PasteFormat ColdFusion = new PasteFormat("cfm");
-        public static readonly PasteFormat CSS = new PasteFormat("css");
-        public static readonly PasteFormat Cuesheet = new PasteFormat("cuesheet");
-        public static readonly PasteFormat D = new PasteFormat("d");
-        public static readonly PasteFormat DCL = new PasteFormat("dcl");
-        public static readonly PasteFormat DCPU16 = new PasteFormat("dcpu16");
-        public static readonly PasteFormat DCS = new PasteFormat("dcs");
-        public static readonly PasteFormat Delphi = new PasteFormat("delphi");
-        public static readonly PasteFormat Oxygene = new PasteFormat("oxygene");
-        public static readonly PasteFormat Diff = new PasteFormat("diff");
-        public static readonly PasteFormat DIV = new PasteFormat("div");
-        public static readonly PasteFormat DOS = new PasteFormat("dos");
-        public static readonly PasteFormat DOT = new PasteFormat("dot");
-        public static readonly PasteFormat E = new PasteFormat("e");
-        public static readonly PasteFormat ECMAScript = new PasteFormat("ecmascript");
-        public static readonly PasteFormat Eiffel = new PasteFormat("eiffel");
-        public static readonly PasteFormat Email = new PasteFormat("email");
-        public static readonly PasteFormat EPC = new PasteFormat("epc");
-        public static readonly PasteFormat Erlang = new PasteFormat("erlang");
-        public static readonly PasteFormat FSharp = new PasteFormat("fsharp");
-        public static readonly PasteFormat Falcon = new PasteFormat("falcon");
-        public static readonly PasteFormat FOLanguage = new PasteFormat("fo");
-        public static readonly PasteFormat FormulaOne = new PasteFormat("f1");
-        public static readonly PasteFormat Fortran = new PasteFormat("fortran");
-        public static readonly PasteFormat FreeBasic = new PasteFormat("freebasic");
-        public static readonly PasteFormat FreeSWITCH = new PasteFormat("freeswitch");
-        public static readonly PasteFormat GAMBAS = new PasteFormat("gambas");
-        public static readonly PasteFormat GameMaker = new PasteFormat("gml");
-        public static readonly PasteFormat GDB = new PasteFormat("gdb");
-        public static readonly PasteFormat Genero = new PasteFormat("genero");
-        public static readonly PasteFormat Genie = new PasteFormat("genie");
-        public static readonly PasteFormat GetText = new PasteFormat("gettext");
-        public static readonly PasteFormat Go = new PasteFormat("go");
-        public static readonly PasteFormat Groovy = new PasteFormat("groovy");
-        public static readonly PasteFormat GwBasic = new PasteFormat("gwbasic");
-        public static readonly PasteFormat Haskell = new PasteFormat("haskell");
-        public static readonly PasteFormat Haxe = new PasteFormat("haxe");
-        public static readonly PasteFormat HicEst = new PasteFormat("hicest");
-        public static readonly PasteFormat HQ9Plus = new PasteFormat("hq9plus");
-        public static readonly PasteFormat HTML = new PasteFormat("html4strict");
-        public static readonly PasteFormat HTML5 = new PasteFormat("html5");
-        public static readonly PasteFormat Icon = new PasteFormat("icon");
-        public static readonly PasteFormat IDL = new PasteFormat("idl");
-        public static readonly PasteFormat INIfile = new PasteFormat("ini");
-        public static readonly PasteFormat InnoScript = new PasteFormat("inno");
-        public static readonly PasteFormat INTERCAL = new PasteFormat("intercal");
-        public static readonly PasteFormat IO = new PasteFormat("io");
-        public static readonly PasteFormat J = new PasteFormat("j");
-        public static readonly PasteFormat Java = new PasteFormat("java");
-        public static readonly PasteFormat Java5 = new PasteFormat("java5");
-        public static readonly PasteFormat JavaScript = new PasteFormat("javascript");
-        public static readonly PasteFormat jQuery = new PasteFormat("jquery");
-        public static readonly PasteFormat KiXtart = new PasteFormat("kixtart");
-        public static readonly PasteFormat Latex = new PasteFormat("latex");
-        public static readonly PasteFormat LDIF = new PasteFormat("ldif");
-        public static readonly PasteFormat LibertyBASIC = new PasteFormat("lb");
-        public static readonly PasteFormat LindenScripting = new PasteFormat("lsl2");
-        public static readonly PasteFormat Lisp = new PasteFormat("lisp");
-        public static readonly PasteFormat LLVM = new PasteFormat("llvm");
-        public static readonly PasteFormat LocoBasic = new PasteFormat("locobasic");
-        public static readonly PasteFormat Logtalk = new PasteFormat("logtalk");
-        public static readonly PasteFormat LOLCode = new PasteFormat("lolcode");
-        public static readonly PasteFormat LotusFormulas = new PasteFormat("lotusformulas");
-        public static readonly PasteFormat LotusScript = new PasteFormat("lotusscript");
-        public static readonly PasteFormat LScript = new PasteFormat("lscript");
-        public static readonly PasteFormat Lua = new PasteFormat("lua");
-        public static readonly PasteFormat M68000Assembler = new PasteFormat("m68k");
-        public static readonly PasteFormat MagikSF = new PasteFormat("magiksf");
-        public static readonly PasteFormat Make = new PasteFormat("make");
-        public static readonly PasteFormat MapBasic = new PasteFormat("mapbasic");
-        public static readonly PasteFormat MatLab = new PasteFormat("matlab");
-        public static readonly PasteFormat mIRC = new PasteFormat("mirc");
-        public static readonly PasteFormat MIXAssembler = new PasteFormat("mmix");
-        public static readonly PasteFormat Modula2 = new PasteFormat("modula2");
-        public static readonly PasteFormat Modula3 = new PasteFormat("modula3");
-        public static readonly PasteFormat Motorola68000HiSoftDev = new PasteFormat("68000devpac");
-        public static readonly PasteFormat MPASM = new PasteFormat("mpasm");
-        public static readonly PasteFormat MXML = new PasteFormat("mxml");
-        public static readonly PasteFormat MySQL = new PasteFormat("mysql");
-        public static readonly PasteFormat Nagios = new PasteFormat("nagios");
-        public static readonly PasteFormat newLISP = new PasteFormat("newlisp");
-        public static readonly PasteFormat None = new PasteFormat("text");
-        public static readonly PasteFormat NullSoftInstaller = new PasteFormat("nsis");
-        public static readonly PasteFormat Oberon2 = new PasteFormat("oberon2");
-        public static readonly PasteFormat ObjeckProgrammingLangua = new PasteFormat("objeck");
-        public static readonly PasteFormat ObjectiveC = new PasteFormat("objc");
-        public static readonly PasteFormat OCalmBrief = new PasteFormat("ocaml-brief");
-        public static readonly PasteFormat OCaml = new PasteFormat("ocaml");
-        public static readonly PasteFormat Octave = new PasteFormat("octave");
-        public static readonly PasteFormat OpenBSDPACKETFILTER = new PasteFormat("pf");
-        public static readonly PasteFormat OpenGLShading = new PasteFormat("glsl");
-        public static readonly PasteFormat OpenofficeBASIC = new PasteFormat("oobas");
-        public static readonly PasteFormat Oracle11 = new PasteFormat("oracle11");
-        public static readonly PasteFormat Oracle8 = new PasteFormat("oracle8");
-        public static readonly PasteFormat Oz = new PasteFormat("oz");
-        public static readonly PasteFormat ParaSail = new PasteFormat("parasail");
-        public static readonly PasteFormat PARIGP = new PasteFormat("parigp");
-        public static readonly PasteFormat Pascal = new PasteFormat("pascal");
-        public static readonly PasteFormat PAWN = new PasteFormat("pawn");
-        public static readonly PasteFormat PCRE = new PasteFormat("pcre");
-        public static readonly PasteFormat Per = new PasteFormat("per");
-        public static readonly PasteFormat Perl = new PasteFormat("perl");
-        public static readonly PasteFormat Perl6 = new PasteFormat("perl6");
-        public static readonly PasteFormat PHP = new PasteFormat("php");
-        public static readonly PasteFormat PHPBrief = new PasteFormat("php-brief");
-        public static readonly PasteFormat Pic16 = new PasteFormat("pic16");
-        public static readonly PasteFormat Pike = new PasteFormat("pike");
-        public static readonly PasteFormat PixelBender = new PasteFormat("pixelbender");
-        public static readonly PasteFormat PLSQL = new PasteFormat("plsql");
-        public static readonly PasteFormat PostgreSQL = new PasteFormat("postgresql");
-        public static readonly PasteFormat POVRay = new PasteFormat("povray");
-        public static readonly PasteFormat PowerShell = new PasteFormat("powershell");
-        public static readonly PasteFormat PowerBuilder = new PasteFormat("powerbuilder");
-        public static readonly PasteFormat ProFTPd = new PasteFormat("proftpd");
-        public static readonly PasteFormat Progress = new PasteFormat("progress");
-        public static readonly PasteFormat Prolog = new PasteFormat("prolog");
-        public static readonly PasteFormat Properties = new PasteFormat("properties");
-        public static readonly PasteFormat ProvideX = new PasteFormat("providex");
-        public static readonly PasteFormat PureBasic = new PasteFormat("purebasic");
-        public static readonly PasteFormat PyCon = new PasteFormat("pycon");
-        public static readonly PasteFormat Python = new PasteFormat("python");
-        public static readonly PasteFormat PythonforS60 = new PasteFormat("pys60");
-        public static readonly PasteFormat qkdbplus = new PasteFormat("q");
-        public static readonly PasteFormat QBasic = new PasteFormat("qbasic");
-        public static readonly PasteFormat R = new PasteFormat("rsplus");
-        public static readonly PasteFormat Rails = new PasteFormat("rails");
-        public static readonly PasteFormat REBOL = new PasteFormat("rebol");
-        public static readonly PasteFormat REG = new PasteFormat("reg");
-        public static readonly PasteFormat Rexx = new PasteFormat("rexx");
-        public static readonly PasteFormat Robots = new PasteFormat("robots");
-        public static readonly PasteFormat RPMSpec = new PasteFormat("rpmspec");
-        public static readonly PasteFormat Ruby = new PasteFormat("ruby");
-        public static readonly PasteFormat RubyGnuplot = new PasteFormat("gnuplot");
-        public static readonly PasteFormat SAS = new PasteFormat("sas");
-        public static readonly PasteFormat Scala = new PasteFormat("scala");
-        public static readonly PasteFormat Scheme = new PasteFormat("scheme");
-        public static readonly PasteFormat Scilab = new PasteFormat("scilab");
-        public static readonly PasteFormat SdlBasic = new PasteFormat("sdlbasic");
-        public static readonly PasteFormat Smalltalk = new PasteFormat("smalltalk");
-        public static readonly PasteFormat Smarty = new PasteFormat("smarty");
-        public static readonly PasteFormat SPARK = new PasteFormat("spark");
-        public static readonly PasteFormat SPARQL = new PasteFormat("sparql");
-        public static readonly PasteFormat SQL = new PasteFormat("sql");
-        public static readonly PasteFormat StoneScript = new PasteFormat("stonescript");
-        public static readonly PasteFormat SystemVerilog = new PasteFormat("systemverilog");
-        public static readonly PasteFormat TSQL = new PasteFormat("tsql");
-        public static readonly PasteFormat TCL = new PasteFormat("tcl");
-        public static readonly PasteFormat TeraTerm = new PasteFormat("teraterm");
-        public static readonly PasteFormat thinBasic = new PasteFormat("thinbasic");
-        public static readonly PasteFormat TypoScript = new PasteFormat("typoscript");
-        public static readonly PasteFormat Unicon = new PasteFormat("unicon");
-        public static readonly PasteFormat UnrealScript = new PasteFormat("uscript");
-        public static readonly PasteFormat UPC = new PasteFormat("ups");
-        public static readonly PasteFormat Urbi = new PasteFormat("urbi");
-        public static readonly PasteFormat Vala = new PasteFormat("vala");
-        public static readonly PasteFormat VBNET = new PasteFormat("vbnet");
-        public static readonly PasteFormat Vedit = new PasteFormat("vedit");
-        public static readonly PasteFormat VeriLog = new PasteFormat("verilog");
-        public static readonly PasteFormat VHDL = new PasteFormat("vhdl");
-        public static readonly PasteFormat VIM = new PasteFormat("vim");
-        public static readonly PasteFormat VisualProLog = new PasteFormat("visualprolog");
-        public static readonly PasteFormat VisualBasic = new PasteFormat("vb");
-        public static readonly PasteFormat VisualFoxPro = new PasteFormat("visualfoxpro");
-        public static readonly PasteFormat WhiteSpace = new PasteFormat("whitespace");
-        public static readonly PasteFormat WHOIS = new PasteFormat("whois");
-        public static readonly PasteFormat Winbatch = new PasteFormat("winbatch");
-        public static readonly PasteFormat XBasic = new PasteFormat("xbasic");
-        public static readonly PasteFormat XML = new PasteFormat("xml");
-        public static readonly PasteFormat XorgConfig = new PasteFormat("xorg_conf");
-        public static readonly PasteFormat XPP = new PasteFormat("xpp");
-        public static readonly PasteFormat YAML = new PasteFormat("yaml");
-        public static readonly PasteFormat Z80Assembler = new PasteFormat("z80");
-        public static readonly PasteFormat ZXBasic = new PasteFormat("zxbasic");
-        public static readonly PasteFormat Default = None;
+        public static PasteFormat _4CS { get { return PasteFormats["4cs"]; } }
+        public static PasteFormat _6502ACMECrossAssembler { get { return PasteFormats["6502acme"]; } }
+        public static PasteFormat _6502KickAssembler { get { return PasteFormats["6502kickass"]; } }
+        public static PasteFormat _6502TASM64TASS { get { return PasteFormats["6502tasm"]; } }
+        public static PasteFormat ABAP { get { return PasteFormats["abap"]; } }
+        public static PasteFormat ActionScript { get { return PasteFormats["actionscript"]; } }
+        public static PasteFormat ActionScript3 { get { return PasteFormats["actionscript3"]; } }
+        public static PasteFormat Ada { get { return PasteFormats["ada"]; } }
+        public static PasteFormat ALGOL68 { get { return PasteFormats["algol68"]; } }
+        public static PasteFormat ApacheLog { get { return PasteFormats["apache"]; } }
+        public static PasteFormat AppleScript { get { return PasteFormats["applescript"]; } }
+        public static PasteFormat APTSources { get { return PasteFormats["apt_sources"]; } }
+        public static PasteFormat ARM { get { return PasteFormats["arm"]; } }
+        public static PasteFormat ASM { get { return PasteFormats["asm"]; } }
+        public static PasteFormat ASP { get { return PasteFormats["asp"]; } }
+        public static PasteFormat Asymptote { get { return PasteFormats["asymptote"]; } }
+        public static PasteFormat autoconf { get { return PasteFormats["autoconf"]; } }
+        public static PasteFormat Autohotkey { get { return PasteFormats["autohotkey"]; } }
+        public static PasteFormat AutoIt { get { return PasteFormats["autoit"]; } }
+        public static PasteFormat Avisynth { get { return PasteFormats["avisynth"]; } }
+        public static PasteFormat Awk { get { return PasteFormats["awk"]; } }
+        public static PasteFormat BASCOMAVR { get { return PasteFormats["bascomavr"]; } }
+        public static PasteFormat Bash { get { return PasteFormats["bash"]; } }
+        public static PasteFormat Basic4GL { get { return PasteFormats["basic4gl"]; } }
+        public static PasteFormat BibTeX { get { return PasteFormats["bibtex"]; } }
+        public static PasteFormat BlitzBasic { get { return PasteFormats["blitzbasic"]; } }
+        public static PasteFormat BNF { get { return PasteFormats["bnf"]; } }
+        public static PasteFormat BOO { get { return PasteFormats["boo"]; } }
+        public static PasteFormat BrainFuck { get { return PasteFormats["bf"]; } }
+        public static PasteFormat C { get { return PasteFormats["c"]; } }
+        public static PasteFormat CforMacs { get { return PasteFormats["c_mac"]; } }
+        public static PasteFormat CIntermediateLanguage { get { return PasteFormats["cil"]; } }
+        public static PasteFormat CSharp { get { return PasteFormats["csharp"]; } }
+        public static PasteFormat CPlusPlus { get { return PasteFormats["cpp"]; } }
+        public static PasteFormat CPlusPlusQT { get { return PasteFormats["cpp-qt"]; } }
+        public static PasteFormat CLoadrunner { get { return PasteFormats["c_loadrunner"]; } }
+        public static PasteFormat CADDCL { get { return PasteFormats["caddcl"]; } }
+        public static PasteFormat CADLisp { get { return PasteFormats["cadlisp"]; } }
+        public static PasteFormat CFDG { get { return PasteFormats["cfdg"]; } }
+        public static PasteFormat ChaiScript { get { return PasteFormats["chaiscript"]; } }
+        public static PasteFormat Clojure { get { return PasteFormats["clojure"]; } }
+        public static PasteFormat CloneC { get { return PasteFormats["klonec"]; } }
+        public static PasteFormat CloneCPlusPlus { get { return PasteFormats["klonecpp"]; } }
+        public static PasteFormat CMake { get { return PasteFormats["cmake"]; } }
+        public static PasteFormat COBOL { get { return PasteFormats["cobol"]; } }
+        public static PasteFormat CoffeeScript { get { return PasteFormats["coffeescript"]; } }
+        public static PasteFormat ColdFusion { get { return PasteFormats["cfm"]; } }
+        public static PasteFormat CSS { get { return PasteFormats["css"]; } }
+        public static PasteFormat Cuesheet { get { return PasteFormats["cuesheet"]; } }
+        public static PasteFormat D { get { return PasteFormats["d"]; } }
+        public static PasteFormat DCL { get { return PasteFormats["dcl"]; } }
+        public static PasteFormat DCPU16 { get { return PasteFormats["dcpu16"]; } }
+        public static PasteFormat DCS { get { return PasteFormats["dcs"]; } }
+        public static PasteFormat Delphi { get { return PasteFormats["delphi"]; } }
+        public static PasteFormat Oxygene { get { return PasteFormats["oxygene"]; } }
+        public static PasteFormat Diff { get { return PasteFormats["diff"]; } }
+        public static PasteFormat DIV { get { return PasteFormats["div"]; } }
+        public static PasteFormat DOS { get { return PasteFormats["dos"]; } }
+        public static PasteFormat DOT { get { return PasteFormats["dot"]; } }
+        public static PasteFormat E { get { return PasteFormats["e"]; } }
+        public static PasteFormat ECMAScript { get { return PasteFormats["ecmascript"]; } }
+        public static PasteFormat Eiffel { get { return PasteFormats["eiffel"]; } }
+        public static PasteFormat Email { get { return PasteFormats["email"]; } }
+        public static PasteFormat EPC { get { return PasteFormats["epc"]; } }
+        public static PasteFormat Erlang { get { return PasteFormats["erlang"]; } }
+        public static PasteFormat FSharp { get { return PasteFormats["fsharp"]; } }
+        public static PasteFormat Falcon { get { return PasteFormats["falcon"]; } }
+        public static PasteFormat FOLanguage { get { return PasteFormats["fo"]; } }
+        public static PasteFormat FormulaOne { get { return PasteFormats["f1"]; } }
+        public static PasteFormat Fortran { get { return PasteFormats["fortran"]; } }
+        public static PasteFormat FreeBasic { get { return PasteFormats["freebasic"]; } }
+        public static PasteFormat FreeSWITCH { get { return PasteFormats["freeswitch"]; } }
+        public static PasteFormat GAMBAS { get { return PasteFormats["gambas"]; } }
+        public static PasteFormat GameMaker { get { return PasteFormats["gml"]; } }
+        public static PasteFormat GDB { get { return PasteFormats["gdb"]; } }
+        public static PasteFormat Genero { get { return PasteFormats["genero"]; } }
+        public static PasteFormat Genie { get { return PasteFormats["genie"]; } }
+        public static PasteFormat GetText { get { return PasteFormats["gettext"]; } }
+        public static PasteFormat Go { get { return PasteFormats["go"]; } }
+        public static PasteFormat Groovy { get { return PasteFormats["groovy"]; } }
+        public static PasteFormat GwBasic { get { return PasteFormats["gwbasic"]; } }
+        public static PasteFormat Haskell { get { return PasteFormats["haskell"]; } }
+        public static PasteFormat Haxe { get { return PasteFormats["haxe"]; } }
+        public static PasteFormat HicEst { get { return PasteFormats["hicest"]; } }
+        public static PasteFormat HQ9Plus { get { return PasteFormats["hq9plus"]; } }
+        public static PasteFormat HTML { get { return PasteFormats["html4strict"]; } }
+        public static PasteFormat HTML5 { get { return PasteFormats["html5"]; } }
+        public static PasteFormat Icon { get { return PasteFormats["icon"]; } }
+        public static PasteFormat IDL { get { return PasteFormats["idl"]; } }
+        public static PasteFormat INIfile { get { return PasteFormats["ini"]; } }
+        public static PasteFormat InnoScript { get { return PasteFormats["inno"]; } }
+        public static PasteFormat INTERCAL { get { return PasteFormats["intercal"]; } }
+        public static PasteFormat IO { get { return PasteFormats["io"]; } }
+        public static PasteFormat J { get { return PasteFormats["j"]; } }
+        public static PasteFormat Java { get { return PasteFormats["java"]; } }
+        public static PasteFormat Java5 { get { return PasteFormats["java5"]; } }
+        public static PasteFormat JavaScript { get { return PasteFormats["javascript"]; } }
+        public static PasteFormat jQuery { get { return PasteFormats["jquery"]; } }
+        public static PasteFormat KiXtart { get { return PasteFormats["kixtart"]; } }
+        public static PasteFormat Latex { get { return PasteFormats["latex"]; } }
+        public static PasteFormat LDIF { get { return PasteFormats["ldif"]; } }
+        public static PasteFormat LibertyBASIC { get { return PasteFormats["lb"]; } }
+        public static PasteFormat LindenScripting { get { return PasteFormats["lsl2"]; } }
+        public static PasteFormat Lisp { get { return PasteFormats["lisp"]; } }
+        public static PasteFormat LLVM { get { return PasteFormats["llvm"]; } }
+        public static PasteFormat LocoBasic { get { return PasteFormats["locobasic"]; } }
+        public static PasteFormat Logtalk { get { return PasteFormats["logtalk"]; } }
+        public static PasteFormat LOLCode { get { return PasteFormats["lolcode"]; } }
+        public static PasteFormat LotusFormulas { get { return PasteFormats["lotusformulas"]; } }
+        public static PasteFormat LotusScript { get { return PasteFormats["lotusscript"]; } }
+        public static PasteFormat LScript { get { return PasteFormats["lscript"]; } }
+        public static PasteFormat Lua { get { return PasteFormats["lua"]; } }
+        public static PasteFormat M68000Assembler { get { return PasteFormats["m68k"]; } }
+        public static PasteFormat MagikSF { get { return PasteFormats["magiksf"]; } }
+        public static PasteFormat Make { get { return PasteFormats["make"]; } }
+        public static PasteFormat MapBasic { get { return PasteFormats["mapbasic"]; } }
+        public static PasteFormat MatLab { get { return PasteFormats["matlab"]; } }
+        public static PasteFormat mIRC { get { return PasteFormats["mirc"]; } }
+        public static PasteFormat MIXAssembler { get { return PasteFormats["mmix"]; } }
+        public static PasteFormat Modula2 { get { return PasteFormats["modula2"]; } }
+        public static PasteFormat Modula3 { get { return PasteFormats["modula3"]; } }
+        public static PasteFormat Motorola68000HiSoftDev { get { return PasteFormats["68000devpac"]; } }
+        public static PasteFormat MPASM { get { return PasteFormats["mpasm"]; } }
+        public static PasteFormat MXML { get { return PasteFormats["mxml"]; } }
+        public static PasteFormat MySQL { get { return PasteFormats["mysql"]; } }
+        public static PasteFormat Nagios { get { return PasteFormats["nagios"]; } }
+        public static PasteFormat newLISP { get { return PasteFormats["newlisp"]; } }
+        public static PasteFormat None { get { return PasteFormats["text"]; } }
+        public static PasteFormat NullSoftInstaller { get { return PasteFormats["nsis"]; } }
+        public static PasteFormat Oberon2 { get { return PasteFormats["oberon2"]; } }
+        public static PasteFormat ObjeckProgrammingLangua { get { return PasteFormats["objeck"]; } }
+        public static PasteFormat ObjectiveC { get { return PasteFormats["objc"]; } }
+        public static PasteFormat OCalmBrief { get { return PasteFormats["ocaml-brief"]; } }
+        public static PasteFormat OCaml { get { return PasteFormats["ocaml"]; } }
+        public static PasteFormat Octave { get { return PasteFormats["octave"]; } }
+        public static PasteFormat OpenBSDPACKETFILTER { get { return PasteFormats["pf"]; } }
+        public static PasteFormat OpenGLShading { get { return PasteFormats["glsl"]; } }
+        public static PasteFormat OpenofficeBASIC { get { return PasteFormats["oobas"]; } }
+        public static PasteFormat Oracle11 { get { return PasteFormats["oracle11"]; } }
+        public static PasteFormat Oracle8 { get { return PasteFormats["oracle8"]; } }
+        public static PasteFormat Oz { get { return PasteFormats["oz"]; } }
+        public static PasteFormat ParaSail { get { return PasteFormats["parasail"]; } }
+        public static PasteFormat PARIGP { get { return PasteFormats["parigp"]; } }
+        public static PasteFormat Pascal { get { return PasteFormats["pascal"]; } }
+        public static PasteFormat PAWN { get { return PasteFormats["pawn"]; } }
+        public static PasteFormat PCRE { get { return PasteFormats["pcre"]; } }
+        public static PasteFormat Per { get { return PasteFormats["per"]; } }
+        public static PasteFormat Perl { get { return PasteFormats["perl"]; } }
+        public static PasteFormat Perl6 { get { return PasteFormats["perl6"]; } }
+        public static PasteFormat PHP { get { return PasteFormats["php"]; } }
+        public static PasteFormat PHPBrief { get { return PasteFormats["php-brief"]; } }
+        public static PasteFormat Pic16 { get { return PasteFormats["pic16"]; } }
+        public static PasteFormat Pike { get { return PasteFormats["pike"]; } }
+        public static PasteFormat PixelBender { get { return PasteFormats["pixelbender"]; } }
+        public static PasteFormat PLSQL { get { return PasteFormats["plsql"]; } }
+        public static PasteFormat PostgreSQL { get { return PasteFormats["postgresql"]; } }
+        public static PasteFormat POVRay { get { return PasteFormats["povray"]; } }
+        public static PasteFormat PowerShell { get { return PasteFormats["powershell"]; } }
+        public static PasteFormat PowerBuilder { get { return PasteFormats["powerbuilder"]; } }
+        public static PasteFormat ProFTPd { get { return PasteFormats["proftpd"]; } }
+        public static PasteFormat Progress { get { return PasteFormats["progress"]; } }
+        public static PasteFormat Prolog { get { return PasteFormats["prolog"]; } }
+        public static PasteFormat Properties { get { return PasteFormats["properties"]; } }
+        public static PasteFormat ProvideX { get { return PasteFormats["providex"]; } }
+        public static PasteFormat PureBasic { get { return PasteFormats["purebasic"]; } }
+        public static PasteFormat PyCon { get { return PasteFormats["pycon"]; } }
+        public static PasteFormat Python { get { return PasteFormats["python"]; } }
+        public static PasteFormat PythonforS60 { get { return PasteFormats["pys60"]; } }
+        public static PasteFormat qkdbplus { get { return PasteFormats["q"]; } }
+        public static PasteFormat QBasic { get { return PasteFormats["qbasic"]; } }
+        public static PasteFormat R { get { return PasteFormats["rsplus"]; } }
+        public static PasteFormat Rails { get { return PasteFormats["rails"]; } }
+        public static PasteFormat REBOL { get { return PasteFormats["rebol"]; } }
+        public static PasteFormat REG { get { return PasteFormats["reg"]; } }
+        public static PasteFormat Rexx { get { return PasteFormats["rexx"]; } }
+        public static PasteFormat Robots { get { return PasteFormats["robots"]; } }
+        public static PasteFormat RPMSpec { get { return PasteFormats["rpmspec"]; } }
+        public static PasteFormat Ruby { get { return PasteFormats["ruby"]; } }
+        public static PasteFormat RubyGnuplot { get { return PasteFormats["gnuplot"]; } }
+        public static PasteFormat SAS { get { return PasteFormats["sas"]; } }
+        public static PasteFormat Scala { get { return PasteFormats["scala"]; } }
+        public static PasteFormat Scheme { get { return PasteFormats["scheme"]; } }
+        public static PasteFormat Scilab { get { return PasteFormats["scilab"]; } }
+        public static PasteFormat SdlBasic { get { return PasteFormats["sdlbasic"]; } }
+        public static PasteFormat Smalltalk { get { return PasteFormats["smalltalk"]; } }
+        public static PasteFormat Smarty { get { return PasteFormats["smarty"]; } }
+        public static PasteFormat SPARK { get { return PasteFormats["spark"]; } }
+        public static PasteFormat SPARQL { get { return PasteFormats["sparql"]; } }
+        public static PasteFormat SQL { get { return PasteFormats["sql"]; } }
+        public static PasteFormat StoneScript { get { return PasteFormats["stonescript"]; } }
+        public static PasteFormat SystemVerilog { get { return PasteFormats["systemverilog"]; } }
+        public static PasteFormat TSQL { get { return PasteFormats["tsql"]; } }
+        public static PasteFormat TCL { get { return PasteFormats["tcl"]; } }
+        public static PasteFormat TeraTerm { get { return PasteFormats["teraterm"]; } }
+        public static PasteFormat thinBasic { get { return PasteFormats["thinbasic"]; } }
+        public static PasteFormat TypoScript { get { return PasteFormats["typoscript"]; } }
+        public static PasteFormat Unicon { get { return PasteFormats["unicon"]; } }
+        public static PasteFormat UnrealScript { get { return PasteFormats["uscript"]; } }
+        public static PasteFormat UPC { get { return PasteFormats["ups"]; } }
+        public static PasteFormat Urbi { get { return PasteFormats["urbi"]; } }
+        public static PasteFormat Vala { get { return PasteFormats["vala"]; } }
+        public static PasteFormat VBNET { get { return PasteFormats["vbnet"]; } }
+        public static PasteFormat Vedit { get { return PasteFormats["vedit"]; } }
+        public static PasteFormat VeriLog { get { return PasteFormats["verilog"]; } }
+        public static PasteFormat VHDL { get { return PasteFormats["vhdl"]; } }
+        public static PasteFormat VIM { get { return PasteFormats["vim"]; } }
+        public static PasteFormat VisualProLog { get { return PasteFormats["visualprolog"]; } }
+        public static PasteFormat VisualBasic { get { return PasteFormats["vb"]; } }
+        public static PasteFormat VisualFoxPro { get { return PasteFormats["visualfoxpro"]; } }
+        public static PasteFormat WhiteSpace { get { return PasteFormats["whitespace"]; } }
+        public static PasteFormat WHOIS { get { return PasteFormats["whois"]; } }
+        public static PasteFormat Winbatch { get { return PasteFormats["winbatch"]; } }
+        public static PasteFormat XBasic { get { return PasteFormats["xbasic"]; } }
+        public static PasteFormat XML { get { return PasteFormats["xml"]; } }
+        public static PasteFormat XorgConfig { get { return PasteFormats["xorg_conf"]; } }
+        public static PasteFormat XPP { get { return PasteFormats["xpp"]; } }
+        public static PasteFormat YAML { get { return PasteFormats["yaml"]; } }
+        public static PasteFormat Z80Assembler { get { return PasteFormats["z80"]; } }
+        public static PasteFormat ZXBasic { get { return PasteFormats["zxbasic"]; } }
         // ReSharper restore InconsistentNaming
         #endregion
+        public static PasteFormat Default { get { return None; } }
+        public static IEnumerable<PasteFormat> All { get { return PasteFormats.Values; } }
+
+        private static readonly Dictionary<string, PasteFormat> PasteFormats;
+        static PasteFormat()
+        {
+            PasteFormats = (new[] { "4cs",
+                                    "6502acme",
+                                    "6502kickass",
+                                    "6502tasm",
+                                    "abap",
+                                    "actionscript",
+                                    "actionscript3",
+                                    "ada",
+                                    "algol68",
+                                    "apache",
+                                    "applescript",
+                                    "apt_sources",
+                                    "arm",
+                                    "asm",
+                                    "asp",
+                                    "asymptote",
+                                    "autoconf",
+                                    "autohotkey",
+                                    "autoit",
+                                    "avisynth",
+                                    "awk",
+                                    "bascomavr",
+                                    "bash",
+                                    "basic4gl",
+                                    "bibtex",
+                                    "blitzbasic",
+                                    "bnf",
+                                    "boo",
+                                    "bf",
+                                    "c",
+                                    "c_mac",
+                                    "cil",
+                                    "csharp",
+                                    "cpp",
+                                    "cpp-qt",
+                                    "c_loadrunner",
+                                    "caddcl",
+                                    "cadlisp",
+                                    "cfdg",
+                                    "chaiscript",
+                                    "clojure",
+                                    "klonec",
+                                    "klonecpp",
+                                    "cmake",
+                                    "cobol",
+                                    "coffeescript",
+                                    "cfm",
+                                    "css",
+                                    "cuesheet",
+                                    "d",
+                                    "dcl",
+                                    "dcpu16",
+                                    "dcs",
+                                    "delphi",
+                                    "oxygene",
+                                    "diff",
+                                    "div",
+                                    "dos",
+                                    "dot",
+                                    "e",
+                                    "ecmascript",
+                                    "eiffel",
+                                    "email",
+                                    "epc",
+                                    "erlang",
+                                    "fsharp",
+                                    "falcon",
+                                    "fo",
+                                    "f1",
+                                    "fortran",
+                                    "freebasic",
+                                    "freeswitch",
+                                    "gambas",
+                                    "gml",
+                                    "gdb",
+                                    "genero",
+                                    "genie",
+                                    "gettext",
+                                    "go",
+                                    "groovy",
+                                    "gwbasic",
+                                    "haskell",
+                                    "haxe",
+                                    "hicest",
+                                    "hq9plus",
+                                    "html4strict",
+                                    "html5",
+                                    "icon",
+                                    "idl",
+                                    "ini",
+                                    "inno",
+                                    "intercal",
+                                    "io",
+                                    "j",
+                                    "java",
+                                    "java5",
+                                    "javascript",
+                                    "jquery",
+                                    "kixtart",
+                                    "latex",
+                                    "ldif",
+                                    "lb",
+                                    "lsl2",
+                                    "lisp",
+                                    "llvm",
+                                    "locobasic",
+                                    "logtalk",
+                                    "lolcode",
+                                    "lotusformulas",
+                                    "lotusscript",
+                                    "lscript",
+                                    "lua",
+                                    "m68k",
+                                    "magiksf",
+                                    "make",
+                                    "mapbasic",
+                                    "matlab",
+                                    "mirc",
+                                    "mmix",
+                                    "modula2",
+                                    "modula3",
+                                    "68000devpac",
+                                    "mpasm",
+                                    "mxml",
+                                    "mysql",
+                                    "nagios",
+                                    "newlisp",
+                                    "text",
+                                    "nsis",
+                                    "oberon2",
+                                    "objeck",
+                                    "objc",
+                                    "ocaml-brief",
+                                    "ocaml",
+                                    "octave",
+                                    "pf",
+                                    "glsl",
+                                    "oobas",
+                                    "oracle11",
+                                    "oracle8",
+                                    "oz",
+                                    "parasail",
+                                    "parigp",
+                                    "pascal",
+                                    "pawn",
+                                    "pcre",
+                                    "per",
+                                    "perl",
+                                    "perl6",
+                                    "php",
+                                    "php-brief",
+                                    "pic16",
+                                    "pike",
+                                    "pixelbender",
+                                    "plsql",
+                                    "postgresql",
+                                    "povray",
+                                    "powershell",
+                                    "powerbuilder",
+                                    "proftpd",
+                                    "progress",
+                                    "prolog",
+                                    "properties",
+                                    "providex",
+                                    "purebasic",
+                                    "pycon",
+                                    "python",
+                                    "pys60",
+                                    "q",
+                                    "qbasic",
+                                    "rsplus",
+                                    "rails",
+                                    "rebol",
+                                    "reg",
+                                    "rexx",
+                                    "robots",
+                                    "rpmspec",
+                                    "ruby",
+                                    "gnuplot",
+                                    "sas",
+                                    "scala",
+                                    "scheme",
+                                    "scilab",
+                                    "sdlbasic",
+                                    "smalltalk",
+                                    "smarty",
+                                    "spark",
+                                    "sparql",
+                                    "sql",
+                                    "stonescript",
+                                    "systemverilog",
+                                    "tsql",
+                                    "tcl",
+                                    "teraterm",
+                                    "thinbasic",
+                                    "typoscript",
+                                    "unicon",
+                                    "uscript",
+                                    "ups",
+                                    "urbi",
+                                    "vala",
+                                    "vbnet",
+                                    "vedit",
+                                    "verilog",
+                                    "vhdl",
+                                    "vim",
+                                    "visualprolog",
+                                    "vb",
+                                    "visualfoxpro",
+                                    "whitespace",
+                                    "whois",
+                                    "winbatch",
+                                    "xbasic",
+                                    "xml",
+                                    "xorg_conf",
+                                    "xpp",
+                                    "yaml",
+                                    "z80",
+                                    "zxbasic" }).ToDictionary(s => s, s => new PasteFormat(s));
+        }
+
+        public static PasteFormat Parse(string s)
+        {
+            PasteFormat result;
+            if (s == null)
+                throw new ArgumentNullException("s");
+            if (TryParse(s, out result) == false)
+                throw new FormatException(string.Format("Format: {0} is not supported", s));
+            return result;
+        }
+
+        public static bool TryParse(string s, out PasteFormat result)
+        {
+            result = Default;
+            if (s == null || PasteFormats.ContainsKey(s) == false)
+                return false;
+            result = PasteFormats[s];
+            return true;
+        }
 
         private readonly string value;
         private PasteFormat(string value)

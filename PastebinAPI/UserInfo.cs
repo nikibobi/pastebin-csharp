@@ -22,26 +22,26 @@ namespace PastebinAPI
 	        <user_account_type>1</user_account_type> (0 normal, 1 PRO)
         </user>
          */
-        internal static UserInfo Parse(string s)
+        internal static UserInfo FromXML(string s)
         {
-            XDocument xml = XDocument.Parse(s);
+            XElement user = XDocument.Parse(s).Element("user");
             UserInfo userInfo = new UserInfo()
             {
-                Name = xml.Element("user_name").Value,
-                FormatShort = xml.Element("user_format_short").Value,
-                Expiration = Expiration.Expirations[xml.Element("user_expiration").Value],
-                AvatarURL = xml.Element("user_avatar_url").Value,
-                Visibility = (Visibility)int.Parse(xml.Element("user_private").Value),
-                Website = xml.Element("user_website").Value,
-                Email = xml.Element("user_email").Value,
-                Location = xml.Element("user_location").Value,
-                IsPro = int.Parse(xml.Element("user_account_type").Value) == 1,
+                Name = user.Element("user_name").Value,
+                PasteFormat = PasteFormat.Parse(user.Element("user_format_short").Value),
+                Expiration = Expiration.Parse(user.Element("user_expiration").Value),
+                AvatarURL = user.Element("user_avatar_url").Value,
+                Visibility = (Visibility)int.Parse(user.Element("user_private").Value),
+                Website = user.Element("user_website").Value,
+                Email = user.Element("user_email").Value,
+                Location = user.Element("user_location").Value,
+                IsPro = int.Parse(user.Element("user_account_type").Value) == 1,
             };
             return userInfo;
         }
 
         public string Name { get; private set; }
-        public string FormatShort { get; private set; }
+        public PasteFormat PasteFormat { get; private set; }
         public Expiration Expiration { get; private set; }
         public string AvatarURL { get; private set; }
         public Visibility Visibility { get; private set; }
@@ -49,5 +49,11 @@ namespace PastebinAPI
         public string Email { get; private set; }
         public string Location { get; private set; }
         public bool IsPro { get; private set; }
+
+        public override string ToString()
+        {
+            //TODO: add a proper string format
+            return string.Format("{0}\n{1}\n{2}\n{3}\n{4}\n{5}\n{6}\n{7}\n{8}", Name, PasteFormat, Expiration, AvatarURL, Visibility, Website, Email, Location, IsPro);
+        }
     }
 }

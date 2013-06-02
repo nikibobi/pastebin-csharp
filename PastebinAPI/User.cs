@@ -28,7 +28,7 @@
 
             if (result.Contains(Pastebin.ERROR))
                 throw new PastebinException(result);
-
+            //TODO: parse XML
             return result;
         }
 
@@ -58,7 +58,7 @@
             if (result.Contains(Pastebin.ERROR))
                 throw new PastebinException(result);
 
-            return UserInfo.Parse(result);
+            return UserInfo.FromXML(result);
         }
     }
 }
