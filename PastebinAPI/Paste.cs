@@ -67,8 +67,7 @@ namespace PastebinAPI
 
         public override string ToString()
         {
-            //return Text ?? GetRaw();
-            return string.Format("{0}\n{1}\n{2}\n{3}\n{4}\n{5}\n{6}\n{7}\n{8}", Key, Date, Title, Size, ExpireDate, Visibility, PasteFormat, Url, Hits);
+            return Text ?? GetRaw();
         }
     }
 }

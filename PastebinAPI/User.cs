@@ -92,8 +92,7 @@ namespace PastebinAPI
 
         public override string ToString()
         {
-            //return Name;
-            return string.Format("{0}\n{1}\n{2}\n{3}\n{4}\n{5}\n{6}\n{7}\n{8}", Name, DefaultPasteFormat, DefaultExpiration, AvatarURL, DefaultVisibility, Website, Email, Location, IsPro);
+            return Name;
         }
     }
 }

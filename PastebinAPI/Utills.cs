@@ -23,6 +23,7 @@ namespace PastebinAPI
 
         public static string PostRequest(string url, params string[] parameters)
         {
+            //TODO: Catch net exceptions
             WebRequest request = WebRequest.Create(url);
             request.Method = "POST";
             request.ContentType = "application/x-www-form-urlencoded";
