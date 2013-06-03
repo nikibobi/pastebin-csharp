@@ -20,18 +20,18 @@ namespace PastebinAPI
         }
 
         private static Dictionary<string, ParameterType> parameters = new Dictionary<string, ParameterType>
-                                                                          {
-                                                                                {"", ParameterType.None},
-                                                                                { "api_dev_key", ParameterType.DevKey },
-                                                                                { "api_expire_date", ParameterType.ExpireDate },
-                                                                                { "api_option", ParameterType.Option },
-                                                                                { "api_paste_format", ParameterType.PasteFormat },
-                                                                                { "api_paste_private", ParameterType.PastePrivate },
-                                                                                { "api_user_key", ParameterType.UserKey },
-                                                                                { "login", ParameterType.Login },
-                                                                                { "permission to remove paste", ParameterType.DeletePastePermision },
-                                                                                { "POST parameters", ParameterType.PostParameters }
-                                                                          };
+        {
+            {"", ParameterType.None},
+            { "api_dev_key", ParameterType.DevKey },
+            { "api_expire_date", ParameterType.ExpireDate },
+            { "api_option", ParameterType.Option },
+            { "api_paste_format", ParameterType.PasteFormat },
+            { "api_paste_private", ParameterType.PastePrivate },
+            { "api_user_key", ParameterType.UserKey },
+            { "login", ParameterType.Login },
+            { "permission to remove paste", ParameterType.DeletePastePermision },
+            { "POST parameters", ParameterType.PostParameters }
+        };
 
         public ParameterType Parameter { get; private set; }
 

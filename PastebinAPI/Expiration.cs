@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace PastebinAPI
@@ -23,13 +22,14 @@ namespace PastebinAPI
         static Expiration()
         {
             //lol wtf this is realy hacky xD
-            Expirations = (new[] { "N",
-                                   "10M",
-                                   "1H",
-                                   "1D",
-                                   "1W",
-                                   "2W",
-                                   "1M" }).ToDictionary(s=>s, s=>new Expiration(s));
+            Expirations = (new Dictionary<string, TimeSpan> {
+                            {"N", TimeSpan.MaxValue},
+                            {"10M", TimeSpan.FromMinutes(10)},
+                            {"1H", TimeSpan.FromHours(1)},
+                            {"1D", TimeSpan.FromDays(1)},
+                            {"1W", TimeSpan.FromDays(7)},
+                            {"2W", TimeSpan.FromDays(14)},
+                            {"1M", TimeSpan.FromDays(30)} }).ToDictionary(e=>e.Key, e=>new Expiration(e.Key, e.Value));
         }
 
         public static Expiration Parse(string s)
@@ -52,13 +52,33 @@ namespace PastebinAPI
         }
 
         private readonly string value;
-        private Expiration(string value)
+        private readonly TimeSpan time;
+
+        private Expiration(string value, TimeSpan time)
         {
             this.value = value;
+            this.time = time;
         }
+
+        public TimeSpan Time { get { return time; } }
+
         public override string ToString()
         {
             return value;
+        }
+
+        public static implicit operator TimeSpan(Expiration expiration)
+        {
+            return expiration.Time;
+        }
+
+        public static implicit operator Expiration(TimeSpan time)
+        {
+            var expirations = from expiration in All
+                              orderby expiration.Time ascending
+                              where time <= expiration.Time
+                              select expiration;
+            return expirations.FirstOrDefault() ?? Expiration.Default;
         }
     }
 }

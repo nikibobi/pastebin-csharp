@@ -476,6 +476,7 @@ namespace PastebinAPI
         }
 
         private readonly string value;
+
         private PasteFormat(string value)
         {
             this.value = value;
