@@ -36,7 +36,12 @@ namespace PastebinAPI
         public ParameterType Parameter { get; private set; }
 
         public PastebinException(string message)
-            :base(message)
+            :this(message, null)
+        {
+        }
+
+        public PastebinException(string message, Exception innerException)
+            : base(message, innerException)
         {
             if (message.Contains("Bad API request, invalid "))
                 Parameter = parameters[message.Replace("Bad API request, invalid ", "")];

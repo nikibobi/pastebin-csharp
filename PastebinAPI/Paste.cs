@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Linq;
 using System.Xml.Linq;
 using System.Collections.Generic;
@@ -25,14 +26,14 @@ namespace PastebinAPI
              */
             var paste = new Paste();
             paste.Key = xpaste.Element("paste_key").Value;
-            paste.Date = Utills.GetDate(long.Parse(xpaste.Element("paste_date").Value));
+            paste.CreateDate = Utills.GetDate(long.Parse(xpaste.Element("paste_date").Value));
             paste.Title = xpaste.Element("paste_title").Value;
             paste.Size = int.Parse(xpaste.Element("paste_size").Value);
             var expTicks = long.Parse(xpaste.Element("paste_expire_date").Value);
             if (expTicks != 0)
             {
                 paste.ExpireDate = Utills.GetDate(expTicks);
-                paste.Expiration = paste.ExpireDate - paste.Date;
+                paste.Expiration = Expiration.FromTimeSpan(paste.ExpireDate - paste.CreateDate);
             }
             else
             {
@@ -40,29 +41,81 @@ namespace PastebinAPI
                 paste.Expiration = Expiration.Never;
             }
             paste.Visibility = (Visibility)int.Parse(xpaste.Element("paste_private").Value);
-            paste.PasteFormat = PasteFormat.Parse(xpaste.Element("paste_format_short").Value);
+            paste.Language = Language.Parse(xpaste.Element("paste_format_short").Value);
             paste.Url = xpaste.Element("paste_url").Value;
             paste.Hits = int.Parse(xpaste.Element("paste_hits").Value);
             return paste;
         }
 
-        public string Key { get; internal set; }
-        public DateTime Date { get; internal set; }
-        public string Title { get; internal set; }
-        public int Size { get; internal set; } ///<summary>File size in bytes</summary>
-        public DateTime ExpireDate { get; internal set; }
-        public Expiration Expiration { get; internal set; }
-        public Visibility Visibility { get; internal set; }
-        public PasteFormat PasteFormat { get; internal set; }
-        public string Url { get; internal set; }
-        public int Hits { get; internal set; }
-        public string Text { get; internal set; }
+        internal static Paste Create(string userKey, string text, string title = "", Language language = null, Visibility visibility = Visibility.Public, Expiration expiration = null)
+        {
+            var result = Utills.PostRequest(Utills.URL_API,
+                                            //required parameters
+                                            "api_dev_key=" + Pastebin.DevKey,
+                                            "api_option=" + "paste",
+                                            "api_paste_code=" + Uri.EscapeDataString(text),
+                                            //optional parameters
+                                            "api_user_key=" + userKey,
+                                            "api_paste_name=" + Uri.EscapeDataString(title),
+                                            "api_paste_format=" + (language ?? Language.Default),
+                                            "api_paste_private=" + (int)visibility,
+                                            "api_paste_expire_date=" + (expiration ?? Expiration.Default));
 
-        internal Paste() { }
+            if (result.Contains(Utills.ERROR))
+                throw new PastebinException(result);
 
+            var paste = new Paste();
+            paste.Key = result.Replace(Utills.URL, "");
+            paste.CreateDate = DateTime.Now;
+            paste.Title = title;
+            paste.Size = Encoding.UTF8.GetByteCount(text);
+            paste.ExpireDate = paste.CreateDate + expiration.Time;
+            paste.Expiration = expiration;
+            paste.Visibility = visibility;
+            paste.Language = language;
+            paste.Hits = 0;
+            paste.Url = result;
+            paste.Text = text;
+
+            return paste;
+        }
+
+        /// <summary>
+        /// Creates a new paste anonymously and uploads it to pastebin
+        /// </summary>
+        /// <returns>Paste object containing the Url given from Pastebin</returns>
+        public static Paste Create(string text, string title = "", Language language = null, Visibility visibility = Visibility.Public, Expiration expiration = null)
+        {
+            return Create("", text, title, language, visibility, expiration);
+        }
+
+        ///<summary>String of 8 characters that is appended at the end of the url</summary>
+        public string Key { get; private set; }
+        ///<summary>Date at witch the paste was created</summary>
+        public DateTime CreateDate { get; private set; }
+        public string Title { get; private set; }
+        ///<summary>File size in bytes</summary>
+        public int Size { get; private set; }
+        ///<summary>Date at witch the paste will be removed from Pastebin</summary>
+        public DateTime ExpireDate { get; private set; }
+        public Expiration Expiration { get; private set; }
+        public Visibility Visibility { get; private set; }
+        public Language Language { get; private set; }
+        public string Url { get; private set; }
+        ///<summary>Number of views</summary>
+        public int Hits { get; private set; }
+        public string Text { get; private set; }
+
+        private Paste() { }
+
+        /// <summary>
+        /// Gets the raw text for a given url
+        /// </summary>
         public string GetRaw()
         {
-            return Text = Utills.PostRequest("http://pastebin.com/raw.php?i=" + Key);
+            if (Visibility == Visibility.Private)
+                throw new PastebinException("Private pastes can not be accessed");
+            return Text = Utills.PostRequest(Utills.URL_RAW + Key);
         }
 
         public override string ToString()

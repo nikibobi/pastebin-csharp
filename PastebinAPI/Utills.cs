@@ -9,6 +9,12 @@ namespace PastebinAPI
 {
     class Utills
     {
+        public const string ERROR = @"Bad API request";
+        public const string URL = @"http://pastebin.com/";
+        public const string URL_API = URL + @"api/api_post.php";
+        public const string URL_LOGIN = URL + @"api/api_login.php";
+        public const string URL_RAW = URL + @"raw.php?i=";
+
         public static IEnumerable<Paste> PastesFromXML(string xml)
         {
             foreach (var paste in XDocument.Parse("<pastes>" + xml + "</pastes>").Descendants("paste"))
@@ -30,9 +36,16 @@ namespace PastebinAPI
             string postString = string.Join("&", parameters);
             byte[] byteArray = Encoding.UTF8.GetBytes(postString);
             request.ContentLength = byteArray.Length;
-            using (Stream dataStream = request.GetRequestStream())
+            try
             {
-                dataStream.Write(byteArray, 0, byteArray.Length);
+                using (Stream dataStream = request.GetRequestStream())
+                {
+                    dataStream.Write(byteArray, 0, byteArray.Length);
+                }
+            }
+            catch (WebException ex)
+            {
+                throw new PastebinException("Connection to Pastebin failed", ex);
             }
             using (WebResponse response = request.GetResponse())
             using (StreamReader reader = new StreamReader(response.GetResponseStream()))

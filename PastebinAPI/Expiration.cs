@@ -6,30 +6,38 @@ namespace PastebinAPI
 {
     public class Expiration
     {
-        #region Expirations
-        public static Expiration Never { get { return Expirations["N"]; } }
-        public static Expiration TenMinutes { get { return Expirations["10M"]; } }
-        public static Expiration OneHour { get { return Expirations["1H"]; } }
-        public static Expiration OneDay { get { return Expirations["1D"]; } }
-        public static Expiration OneWeek { get { return Expirations["1W"]; } }
-        public static Expiration TwoWeeks { get { return Expirations["2W"]; } }
-        public static Expiration OneMonth { get { return Expirations["2W"]; } }
-        #endregion
-        public static Expiration Default { get { return Never; } }
-        public static IEnumerable<Expiration> All { get { return Expirations.Values; } }
+        public static readonly Expiration TenMinutes;
+        public static readonly Expiration OneHour;
+        public static readonly Expiration OneDay;
+        public static readonly Expiration OneWeek;
+        public static readonly Expiration TwoWeeks;
+        public static readonly Expiration OneMonth;
+        public static readonly Expiration Never;
+        public static readonly Expiration Default;
+        public static readonly IEnumerable<Expiration> All;
 
-        private static readonly Dictionary<string, Expiration> Expirations;
         static Expiration()
         {
-            //lol wtf this is realy hacky xD
-            Expirations = (new Dictionary<string, TimeSpan> {
-                            {"N", TimeSpan.MaxValue},
-                            {"10M", TimeSpan.FromMinutes(10)},
-                            {"1H", TimeSpan.FromHours(1)},
-                            {"1D", TimeSpan.FromDays(1)},
-                            {"1W", TimeSpan.FromDays(7)},
-                            {"2W", TimeSpan.FromDays(14)},
-                            {"1M", TimeSpan.FromDays(30)} }).ToDictionary(e=>e.Key, e=>new Expiration(e.Key, e.Value));
+            TenMinutes = new Expiration("10M", TimeSpan.FromMinutes(10));
+            OneHour = new Expiration("1H", TimeSpan.FromHours(1));
+            OneDay = new Expiration("1D", TimeSpan.FromDays(1));
+            OneWeek = new Expiration("1W", TimeSpan.FromDays(7));
+            TwoWeeks = new Expiration("2W", TimeSpan.FromDays(14));
+            OneMonth = new Expiration("1M", TimeSpan.FromDays(30));
+            Never = new Expiration("N", TimeSpan.MaxValue);
+            Default = Never;
+            All = getExpirations();
+        }
+
+        private static IEnumerable<Expiration> getExpirations()
+        {
+            yield return TenMinutes;
+            yield return OneHour;
+            yield return OneDay;
+            yield return OneWeek;
+            yield return TwoWeeks;
+            yield return OneMonth;
+            yield return Never;
         }
 
         public static Expiration Parse(string s)
@@ -45,10 +53,26 @@ namespace PastebinAPI
         public static bool TryParse(string s, out Expiration result)
         {
             result = Default;
-            if (s == null || Expirations.ContainsKey(s) == false)
+            if (s == null)
                 return false;
-            result = Expirations[s];
-            return true;
+            foreach (Expiration expiration in All)
+            {
+                if (s.ToUpper() == expiration.value)
+                {
+                    result = expiration;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static Expiration FromTimeSpan(TimeSpan timeSpan)
+        {
+            //return All.First(e => timeSpan <= e.time); //maybe use this?
+            foreach (Expiration expiration in All)
+                if (timeSpan <= expiration.time)
+                    return expiration;
+            throw new InvalidOperationException(string.Format("Unreachable code reached! timeSpan = {0}", timeSpan));
         }
 
         private readonly string value;
@@ -65,20 +89,6 @@ namespace PastebinAPI
         public override string ToString()
         {
             return value;
-        }
-
-        public static implicit operator TimeSpan(Expiration expiration)
-        {
-            return expiration.Time;
-        }
-
-        public static implicit operator Expiration(TimeSpan time)
-        {
-            var expirations = from expiration in All
-                              orderby expiration.Time ascending
-                              where time <= expiration.Time
-                              select expiration;
-            return expirations.FirstOrDefault() ?? Expiration.Default;
         }
     }
 }
