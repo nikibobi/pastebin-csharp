@@ -23,7 +23,9 @@ namespace PastebinAPI
             if (result.Contains(Utills.ERROR))
                 throw new PastebinException(result);
 
-            return new User(result);
+            var user = new User(result);
+            user.RequestPreferences();
+            return user;
         }
 
         /// <summary>
