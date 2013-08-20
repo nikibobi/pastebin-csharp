@@ -1,4 +1,5 @@
-#Pastebin API for C#
+Pastebin API for C#
+===================
 
 This is a simple library for accessing Pastebin from C#
 
