@@ -17,7 +17,7 @@ namespace PastebinAPI
 
         public static IEnumerable<Paste> PastesFromXML(string xml)
         {
-            foreach (var paste in XDocument.Parse("<pastes>" + xml + "</pastes>").Descendants("paste"))
+            foreach (var paste in XElement.Parse("<pastes>" + xml + "</pastes>").Descendants("paste"))
                 yield return Paste.FromXML(paste);
         }
 
@@ -42,15 +42,15 @@ namespace PastebinAPI
                 {
                     dataStream.Write(byteArray, 0, byteArray.Length);
                 }
+                using (WebResponse response = request.GetResponse())
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    return reader.ReadToEnd();
+                }
             }
             catch (WebException ex)
             {
                 throw new PastebinException("Connection to Pastebin failed", ex);
-            }
-            using (WebResponse response = request.GetResponse())
-            using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-            {
-                return reader.ReadToEnd();
             }
         }
     }
