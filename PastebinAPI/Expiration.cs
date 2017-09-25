@@ -42,10 +42,9 @@ namespace PastebinAPI
 
         public static Expiration Parse(string s)
         {
-            Expiration result;
             if (s == null)
                 throw new ArgumentNullException("s");
-            if(TryParse(s, out result) == false)
+            if (TryParse(s, out Expiration result) == false)
                 throw new FormatException(string.Format("Format: {0} is not supported", s));
             return result;
         }

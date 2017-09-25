@@ -459,10 +459,9 @@ namespace PastebinAPI
 
         public static Language Parse(string s)
         {
-            Language result;
             if (s == null)
                 throw new ArgumentNullException("s");
-            if (TryParse(s, out result) == false)
+            if (TryParse(s, out Language result) == false)
                 throw new FormatException(string.Format("Format: {0} is not supported", s));
             return result;
         }
