@@ -52,6 +52,12 @@
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PastebinAPI\PastebinAPI.csproj">
+      <Project>{198f990f-5dbb-45ae-a98a-8e4771cc0d0d}</Project>
+      <Name>PastebinAPI</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
