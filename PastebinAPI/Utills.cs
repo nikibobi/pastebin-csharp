@@ -23,8 +23,7 @@ namespace PastebinAPI
 
         public static DateTime GetDate(long ticks)
         {
-            //TODO: Make this accurate
-            return (new DateTime(1970, 1, 1).ToUniversalTime() - TimeSpan.FromHours(3) + TimeSpan.FromSeconds(ticks));
+            return new DateTime(1970, 1, 1).AddSeconds(ticks).ToLocalTime();
         }
 
         public static string PostRequest(string url, params string[] parameters)
