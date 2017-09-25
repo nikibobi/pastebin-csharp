@@ -7,7 +7,7 @@ namespace PastebinAPI
     public class Language
     {
         #region Languages
-        // ReSharper disable InconsistentNaming
+        #pragma warning disable IDE1006 // Naming Styles
         public static Language _4CS { get { return Languages["4cs"]; } }
         public static Language _6502ACMECrossAssembler { get { return Languages["6502acme"]; } }
         public static Language _6502KickAssembler { get { return Languages["6502kickass"]; } }
@@ -227,6 +227,7 @@ namespace PastebinAPI
         public static Language YAML { get { return Languages["yaml"]; } }
         public static Language Z80Assembler { get { return Languages["z80"]; } }
         public static Language ZXBasic { get { return Languages["zxbasic"]; } }
+        #pragma warning restore IDE1006 // Naming Styles
         // ReSharper restore InconsistentNaming
         #endregion
         public static Language Default { get { return None; } }
