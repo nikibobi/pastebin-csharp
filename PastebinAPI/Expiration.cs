@@ -45,7 +45,7 @@ namespace PastebinAPI
             if (s == null)
                 throw new ArgumentNullException("s");
             if (TryParse(s, out Expiration result) == false)
-                throw new FormatException(string.Format("Format: {0} is not supported", s));
+                throw new FormatException($"Format: {s} is not supported");
             return result;
         }
 
