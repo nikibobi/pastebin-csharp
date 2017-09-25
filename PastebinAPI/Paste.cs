@@ -20,7 +20,7 @@ namespace PastebinAPI
 	            <paste_private>0</paste_private>
 	            <paste_format_long>JavaScript</paste_format_long>
 	            <paste_format_short>javascript</paste_format_short>
-	            <paste_url>http://pastebin.com/0b42rwhf</paste_url>
+	            <paste_url>https://pastebin.com/0b42rwhf</paste_url>
 	            <paste_hits>15</paste_hits>
             </paste>
              */

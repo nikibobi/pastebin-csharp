@@ -9,7 +9,7 @@ namespace Example
         {
             //before using any class in the api you must enter your api dev key
             Pastebin.DevKey = "your dev key goes here";
-            //you can see yours here: http://pastebin.com/api#1
+            //you can see yours here: https://pastebin.com/api#1
             try
             {
                 // login and get user object

@@ -89,7 +89,7 @@ namespace PastebinAPI
                  <user_name>wiz_kitty</user_name>
                  <user_format_short>text</user_format_short>
                  <user_expiration>N</user_expiration>
-                 <user_avatar_url>http://pastebin.com/cache/a/1.jpg</user_avatar_url>
+                 <user_avatar_url>https://pastebin.com/cache/a/1.jpg</user_avatar_url>
                  <user_private>1</user_private> (0 Public, 1 Unlisted, 2 Private)
                  <user_website>http://myawesomesite.com</user_website>
                  <user_email>oh@dear.com</user_email>
