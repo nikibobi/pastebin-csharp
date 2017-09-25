@@ -2,6 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Borislav Kosharov</Authors>
+    <Company />
+    <Description>Simple and easy to use API wrapper for Pastebin</Description>
+    <NeutralLanguage />
+    <PackageLicenseUrl>https://github.com/nikibobi/pastebin-csharp/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/nikibobi/pastebin-csharp</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/nikibobi/pastebin-csharp</RepositoryUrl>
+    <Copyright>Copyright 2017</Copyright>
+    <PackageTags>api wrapper pastebin</PackageTags>
   </PropertyGroup>
 
 </Project>
