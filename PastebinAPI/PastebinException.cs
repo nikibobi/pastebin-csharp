@@ -21,7 +21,7 @@ namespace PastebinAPI
 
         private static Dictionary<string, ParameterType> parameters = new Dictionary<string, ParameterType>
         {
-            {"", ParameterType.None},
+            { "", ParameterType.None },
             { "api_dev_key", ParameterType.DevKey },
             { "api_expire_date", ParameterType.ExpireDate },
             { "api_option", ParameterType.Option },
@@ -36,7 +36,7 @@ namespace PastebinAPI
         public ParameterType Parameter { get; private set; }
 
         public PastebinException(string message)
-            :this(message, null)
+            : this(message, null)
         {
         }
 
@@ -44,8 +44,9 @@ namespace PastebinAPI
             : base(message, innerException)
         {
             if (message.Contains("Bad API request, invalid "))
+            {
                 Parameter = parameters[message.Replace("Bad API request, invalid ", "")];
-            else Parameter = parameters[""];
+            }
         }
     }
 }
