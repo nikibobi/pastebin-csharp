@@ -3,7 +3,7 @@ Pastebin API for C#
 
 This is a simple library for accessing Pastebin from C#
 
-#Example
+# Example
 
 ```C#
 using System;
@@ -17,7 +17,7 @@ namespace Example
         {
             //before using any class in the api you must enter your api dev key
             Pastebin.DevKey = "your dev key goes here";
-            //you can see yours here: http://pastebin.com/api#1
+            //you can see yours here: https://pastebin.com/api#1
             try
             {
                 // login and get user object
@@ -32,7 +32,7 @@ namespace Example
 
                 string code = "<your fancy &code#() goes here>";
                 //creates a new paste and get paste object
-                Paste newPaste = me.NewPaste(code, "MyPasteTitle", PasteFormat.HTML5, Visibility.Public, Expiration.TenMinutes);
+                Paste newPaste = me.CreatePaste(code, "MyPasteTitle", Language.HTML5, Visibility.Public, Expiration.TenMinutes);
                 //newPaste now contains the link returned from the server
                 Console.WriteLine("URL: {0}",newPaste.Url);
                 Console.WriteLine("Paste key: {0}", newPaste.Key);
@@ -46,7 +46,7 @@ namespace Example
                     Console.WriteLine("{0} - {1}", paste.Title, paste.Url);
                 }
                 //you can create pastes directly from Pastebin static class but they are created as guests and you have a limited number of guest uploads
-                Paste anotherPaste = Pastebin.NewPaste("another paste", "MyPasteTitle2", PasteFormat.CSharp, Visibility.Unlisted, Expiration.OneHour);
+                Paste anotherPaste = Paste.Create("another paste", "MyPasteTitle2", Language.CSharp, Visibility.Unlisted, Expiration.OneHour);
                 Console.WriteLine(anotherPaste.Title);
             }
             catch(PastebinException ex) //api throws PastebinException
