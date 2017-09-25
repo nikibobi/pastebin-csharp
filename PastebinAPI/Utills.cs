@@ -10,7 +10,7 @@ namespace PastebinAPI
     class Utills
     {
         public const string ERROR = @"Bad API request";
-        public const string URL = @"http://pastebin.com/";
+        public const string URL = @"https://pastebin.com/";
         public const string URL_API = URL + @"api/api_post.php";
         public const string URL_LOGIN = URL + @"api/api_login.php";
         public const string URL_RAW = URL + @"raw.php?i=";
