@@ -41,6 +41,10 @@ namespace PastebinAPI
 
         internal static Paste Create(string userKey, string text, string title = null, Language language = null, Visibility visibility = Visibility.Public, Expiration expiration = null)
         {
+            title = title ?? "Untitled";
+            language = language ?? Language.Default;
+            expiration = expiration ?? Expiration.Default;
+
             var result = Utills.PostRequest(Utills.URL_API,
                                             //required parameters
                                             "api_dev_key=" + Pastebin.DevKey,
@@ -48,10 +52,10 @@ namespace PastebinAPI
                                             "api_paste_code=" + Uri.EscapeDataString(text),
                                             //optional parameters
                                             "api_user_key=" + userKey,
-                                            "api_paste_name=" + Uri.EscapeDataString(title ?? "Untitled"),
-                                            "api_paste_format=" + (language ?? Language.Default),
+                                            "api_paste_name=" + Uri.EscapeDataString(title),
+                                            "api_paste_format=" + language,
                                             "api_paste_private=" + (int)visibility,
-                                            "api_paste_expire_date=" + (expiration ?? Expiration.Default));
+                                            "api_paste_expire_date=" + expiration);
 
             if (result.Contains(Utills.ERROR))
                 throw new PastebinException(result);
