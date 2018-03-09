@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PastebinAPI
 {
+    using static Utills;
+
     public static class Pastebin
     {
         /// <summary>
@@ -13,18 +16,18 @@ namespace PastebinAPI
         /// Log-in to Pastebin
         /// </summary>
         /// <returns>new User object</returns>
-        public static User Login(string username, string password)
+        public static async Task<User> LoginAsync(string username, string password)
         {
-            var result = Utills.PostRequest(Utills.URL_LOGIN,
+            var result = await PostRequestAsync(URL_LOGIN,
                                             "api_dev_key=" + DevKey,
                                             "api_user_name=" + username,
                                             "api_user_password=" + password);
 
-            if (result.Contains(Utills.ERROR))
+            if (result.Contains(ERROR))
                 throw new PastebinException(result);
 
             var user = new User(result);
-            user.RequestPreferences();
+            await user.RequestPreferencesAsync();
             return user;
         }
 
@@ -32,16 +35,16 @@ namespace PastebinAPI
         /// Lists the currently trending pastes
         /// </summary>
         /// <returns>Enumerable of the trending pastes</returns>
-        public static IEnumerable<Paste> ListTrendingPastes()
+        public static async Task<IEnumerable<Paste>> ListTrendingPastesAsync()
         {
-            var result = Utills.PostRequest(Utills.URL_API,
+            var result = await PostRequestAsync(URL_API,
                                             "api_dev_key=" + DevKey,
                                             "api_option=" + "trends");
 
-            if (result.Contains(Utills.ERROR))
+            if (result.Contains(ERROR))
                 throw new PastebinException(result);
 
-            return Utills.PastesFromXML(result);
+            return PastesFromXML(result);
         }
     }
 }

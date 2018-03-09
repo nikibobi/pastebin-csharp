@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace PastebinAPI
 {
+    using static Utills;
+
     public class User
     {
         private readonly string userKey;
@@ -32,9 +35,9 @@ namespace PastebinAPI
         /// <param name="visibility">If left out then user's PreferedVisibility will be used</param>
         /// <param name="expiration">If left out then user's PreferedExpiration will be used</param>
         /// <returns>Paste object containing the Url given from Pastebin</returns>
-        public Paste CreatePaste(string text, string title = null, Language language = null, Visibility? visibility = null, Expiration expiration = null)
+        public async Task<Paste> CreatePasteAsync(string text, string title = null, Language language = null, Visibility? visibility = null, Expiration expiration = null)
         {
-            return Paste.Create(userKey, text, title, language ?? PreferedLanguage, visibility ?? PreferedVisibility, expiration ?? PreferedExpiration);
+            return await Paste.CreateAsync(userKey, text, title, language ?? PreferedLanguage, visibility ?? PreferedVisibility, expiration ?? PreferedExpiration);
         }
 
         /// <summary>
@@ -42,46 +45,46 @@ namespace PastebinAPI
         /// </summary>
         /// <param name="resultsLimit">limits the paste count</param>
         /// <returns>Enumerable of pastes of this user</returns>
-        public IEnumerable<Paste> ListPastes(int resultsLimit = 50)
+        public async Task<IEnumerable<Paste>> ListPastesAsync(int resultsLimit = 50)
         {
-            var result = Utills.PostRequest(Utills.URL_API,
+            var result = await PostRequestAsync(URL_API,
                                             "api_dev_key=" + Pastebin.DevKey,
                                             "api_user_key=" + userKey,
                                             "api_results_limit=" + resultsLimit,
                                             "api_option=" + "list");
 
-            if (result.Contains(Utills.ERROR))
+            if (result.Contains(ERROR))
                 throw new PastebinException(result);
 
-            return Utills.PastesFromXML(result);
+            return PastesFromXML(result);
         }
 
         /// <summary>
         /// Deletes a paste created by this user
         /// </summary>
-        public void DeletePaste(Paste paste)
+        public async Task DeletePasteAsync(Paste paste)
         {
-            var result = Utills.PostRequest(Utills.URL_API,
+            var result = await PostRequestAsync(URL_API,
                                             "api_dev_key=" + Pastebin.DevKey,
                                             "api_user_key=" + userKey,
                                             "api_paste_key=" + paste.Key,
                                             "api_option=" + "delete");
 
-            if (result.Contains(Utills.ERROR))
+            if (result.Contains(ERROR))
                 throw new PastebinException(result);
         }
 
         /// <summary>
         /// Updates user preferences information properties
         /// </summary>
-        public void RequestPreferences()
+        public async Task RequestPreferencesAsync()
         {
-            var result = Utills.PostRequest(Utills.URL_API,
+            var result = await PostRequestAsync(URL_API,
                                             "api_dev_key=" + Pastebin.DevKey,
                                             "api_user_key=" + userKey,
                                             "api_option=" + "userdetails");
 
-            if (result.Contains(Utills.ERROR))
+            if (result.Contains(ERROR))
                 throw new PastebinException(result);
 
             /* Example user xml

@@ -1,9 +1,10 @@
 ﻿using System;
-using System.IO;
-using System.Net;
-using System.Text;
-using System.Xml.Linq;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace PastebinAPI
 {
@@ -14,6 +15,8 @@ namespace PastebinAPI
         public const string URL_API = URL + @"api/api_post.php";
         public const string URL_LOGIN = URL + @"api/api_login.php";
         public const string URL_RAW = URL + @"raw.php?i=";
+
+        private static readonly HttpClient http = new HttpClient();
 
         public static IEnumerable<Paste> PastesFromXML(string xml)
         {
@@ -26,28 +29,18 @@ namespace PastebinAPI
             return new DateTime(1970, 1, 1).AddSeconds(ticks).ToLocalTime();
         }
 
-        public static string PostRequest(string url, params string[] parameters)
+        public static async Task<string> PostRequestAsync(string url, params string[] parameters)
         {
-            //TODO: Catch net exceptions
-            WebRequest request = WebRequest.Create(url);
-            request.Method = "POST";
-            request.ContentType = "application/x-www-form-urlencoded";
-            string postString = string.Join("&", parameters);
-            byte[] byteArray = Encoding.UTF8.GetBytes(postString);
-            request.ContentLength = byteArray.Length;
             try
             {
-                using (Stream dataStream = request.GetRequestStream())
-                {
-                    dataStream.Write(byteArray, 0, byteArray.Length);
-                }
-                using (WebResponse response = request.GetResponse())
-                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                {
-                    return reader.ReadToEnd();
-                }
+                string postString = string.Join("&", parameters);
+                byte[] byteArray = Encoding.UTF8.GetBytes(postString);
+                var content = new ByteArrayContent(byteArray);
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
+                var response = await http.PostAsync(url, content);
+                return await response.Content.ReadAsStringAsync();
             }
-            catch (WebException ex)
+            catch (HttpRequestException ex)
             {
                 throw new PastebinException("Connection to Pastebin failed", ex);
             }

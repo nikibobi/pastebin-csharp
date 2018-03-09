@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Text;
-using System.Linq;
 using System.Xml.Linq;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PastebinAPI
 {
+    using static Utills;
+
     public class Paste
     {
         internal static Paste FromXML(XElement xpaste)
@@ -26,11 +27,11 @@ namespace PastebinAPI
              */
             var paste = new Paste();
             paste.Key = xpaste.Element("paste_key").Value;
-            paste.CreateDate = Utills.GetDate((long)xpaste.Element("paste_date"));
+            paste.CreateDate = GetDate((long)xpaste.Element("paste_date"));
             paste.Title = xpaste.Element("paste_title").Value;
             paste.Size = (int)xpaste.Element("paste_size");
             var exdate = (long)xpaste.Element("paste_expire_date");
-            paste.ExpireDate = exdate != 0 ? Utills.GetDate(exdate) : paste.CreateDate;
+            paste.ExpireDate = exdate != 0 ? GetDate(exdate) : paste.CreateDate;
             paste.Expiration = Expiration.FromTimeSpan(paste.ExpireDate - paste.CreateDate);
             paste.Visibility = (Visibility)(int)xpaste.Element("paste_private");
             paste.Language = Language.Parse(xpaste.Element("paste_format_short").Value);
@@ -39,13 +40,13 @@ namespace PastebinAPI
             return paste;
         }
 
-        internal static Paste Create(string userKey, string text, string title = null, Language language = null, Visibility visibility = Visibility.Public, Expiration expiration = null)
+        internal static async Task<Paste> CreateAsync(string userKey, string text, string title = null, Language language = null, Visibility visibility = Visibility.Public, Expiration expiration = null)
         {
             title = title ?? "Untitled";
             language = language ?? Language.Default;
             expiration = expiration ?? Expiration.Default;
 
-            var result = Utills.PostRequest(Utills.URL_API,
+            var result = await PostRequestAsync(URL_API,
                                             //required parameters
                                             "api_dev_key=" + Pastebin.DevKey,
                                             "api_option=" + "paste",
@@ -57,11 +58,11 @@ namespace PastebinAPI
                                             "api_paste_private=" + (int)visibility,
                                             "api_paste_expire_date=" + expiration);
 
-            if (result.Contains(Utills.ERROR))
+            if (result.Contains(ERROR))
                 throw new PastebinException(result);
 
             var paste = new Paste();
-            paste.Key = result.Replace(Utills.URL, string.Empty);
+            paste.Key = result.Replace(URL, string.Empty);
             paste.CreateDate = DateTime.Now;
             paste.Title = title;
             paste.Size = Encoding.UTF8.GetByteCount(text);
@@ -80,9 +81,9 @@ namespace PastebinAPI
         /// Creates a new paste anonymously and uploads it to pastebin
         /// </summary>
         /// <returns>Paste object containing the Url given from Pastebin</returns>
-        public static Paste Create(string text, string title = null, Language language = null, Visibility visibility = Visibility.Public, Expiration expiration = null)
+        public static async Task<Paste> CreateAsync(string text, string title = null, Language language = null, Visibility visibility = Visibility.Public, Expiration expiration = null)
         {
-            return Create("", text, title, language, visibility, expiration);
+            return await CreateAsync("", text, title, language, visibility, expiration);
         }
 
         ///<summary>String of 8 characters that is appended at the end of the url</summary>
@@ -107,16 +108,16 @@ namespace PastebinAPI
         /// <summary>
         /// Gets the raw text for a given url
         /// </summary>
-        public string GetRaw()
+        public async Task<string> GetRawAsync()
         {
             if (Visibility == Visibility.Private)
                 throw new PastebinException("Private pastes can not be accessed");
-            return Text = Utills.PostRequest(Utills.URL_RAW + Key);
+            return Text = await PostRequestAsync(URL_RAW + Key);
         }
 
         public override string ToString()
         {
-            return Text ?? GetRaw();
+            return Text;
         }
     }
 }
