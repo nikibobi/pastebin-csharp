@@ -11,7 +11,7 @@
     <PackageLicenseUrl>https://github.com/nikibobi/pastebin-csharp/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/nikibobi/pastebin-csharp</PackageProjectUrl>
     <RepositoryUrl>https://github.com/nikibobi/pastebin-csharp</RepositoryUrl>
-    <Copyright>Copyright 2017</Copyright>
+    <Copyright>Copyright 2018</Copyright>
     <PackageTags>api wrapper pastebin</PackageTags>
   </PropertyGroup>
 
