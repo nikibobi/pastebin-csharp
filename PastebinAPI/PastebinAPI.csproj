@@ -13,6 +13,7 @@
     <RepositoryUrl>https://github.com/nikibobi/pastebin-csharp</RepositoryUrl>
     <Copyright>Copyright 2018</Copyright>
     <PackageTags>api wrapper pastebin</PackageTags>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
 </Project>
