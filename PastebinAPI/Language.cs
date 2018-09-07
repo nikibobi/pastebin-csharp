@@ -106,6 +106,7 @@ namespace PastebinAPI
         public static Language Java5 { get { return Languages["java5"]; } }
         public static Language JavaScript { get { return Languages["javascript"]; } }
         public static Language jQuery { get { return Languages["jquery"]; } }
+        public static Language Json { get { return Languages["json"]; } }
         public static Language KiXtart { get { return Languages["kixtart"]; } }
         public static Language Latex { get { return Languages["latex"]; } }
         public static Language LDIF { get { return Languages["ldif"]; } }
@@ -334,6 +335,7 @@ namespace PastebinAPI
                                     "java5",
                                     "javascript",
                                     "jquery",
+                                    "json",
                                     "kixtart",
                                     "latex",
                                     "ldif",
