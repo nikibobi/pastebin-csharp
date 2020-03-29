@@ -33,10 +33,12 @@ jobs:
       with:
         dotnet-version: 3.1.201
         source-url: https://api.nuget.org/v3/index.json
+      env:
+        NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - run: dotnet build
     - name: Create the package
       run: dotnet pack --configuration Release
-    - name: Publish the package to GPR
+    - name: Publish the package to NuGet.org
       run: dotnet nuget push PastebinAPI/bin/Release/*.nupkg -k ${{ secrets.NUGET_TOKEN }}
   publish-github:
     needs: [build]
