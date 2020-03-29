@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Borislav Kosharov</Authors>
@@ -11,9 +11,9 @@
     <PackageLicenseUrl>https://github.com/nikibobi/pastebin-csharp/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/nikibobi/pastebin-csharp</PackageProjectUrl>
     <RepositoryUrl>https://github.com/nikibobi/pastebin-csharp</RepositoryUrl>
-    <Copyright>Copyright 2018</Copyright>
+    <Copyright>Copyright 2020</Copyright>
     <PackageTags>api wrapper pastebin</PackageTags>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
   </PropertyGroup>
 
 </Project>
