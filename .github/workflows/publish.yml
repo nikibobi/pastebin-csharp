@@ -35,9 +35,9 @@ jobs:
         source-url: https://api.nuget.org/v3/index.json
       env:
         NUGET_AUTH_TOKEN: ${{secrets.NUGET_TOKEN}}
-    - run: dotnet build PastebinAPI
+    - run: dotnet build
     - name: Create the package
-      run: dotnet pack --configuration Release PastebinAPI
+      run: dotnet pack --configuration Release
     - name: Publish the package to GPR
       run: dotnet nuget push PastebinAPI/bin/Release/*.nupkg
   publish-github:
@@ -51,9 +51,9 @@ jobs:
         source-url: https://nuget.pkg.github.com/nikibobi/index.json
       env:
         NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-    - run: dotnet build PastebinAPI
+    - run: dotnet build
     - name: Create the package
-      run: dotnet pack --configuration Release PastebinAPI
+      run: dotnet pack --configuration Release
     - name: Publish the package to GPR
       run: dotnet nuget push PastebinAPI/bin/Release/*.nupkg
 
