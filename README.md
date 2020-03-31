@@ -1,6 +1,6 @@
 Pastebin API for C#
 ===================
-![Nuget](https://img.shields.io/nuget/v/PastebinAPI) ![Nuget](https://img.shields.io/nuget/dt/PastebinAPI)
+[![Nuget](https://img.shields.io/nuget/v/PastebinAPI)](https://www.nuget.org/packages/PastebinAPI) [![Nuget](https://img.shields.io/nuget/dt/PastebinAPI)](https://www.nuget.org/packages/PastebinAPI)
 
 This is a simple library for accessing Pastebin from C#
 
